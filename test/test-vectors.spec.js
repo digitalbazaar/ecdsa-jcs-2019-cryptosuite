@@ -2,7 +2,7 @@
  * Copyright (c) 2023-2024 Digital Bazaar, Inc. All rights reserved.
  */
 import * as EcdsaMultikey from '@digitalbazaar/ecdsa-multikey';
-import {cryptosuite} from '../lib/index.js';
+import {createSignCryptosuite, createVerifyCryptosuite} from '../lib/index.js';
 import {DataIntegrityProof} from '@digitalbazaar/data-integrity';
 import {expect} from 'chai';
 import jsigs from 'jsonld-signatures';
@@ -21,7 +21,7 @@ describe('test vectors', () => {
   }
 });
 
-function addTests({curve, keyMaterial, signedFixture}) {
+function addTests({curve, keyMaterial, signFixture, verifyFixture}) {
   let keyPair;
   before(async () => {
     keyPair = await EcdsaMultikey.from(keyMaterial);
@@ -30,15 +30,16 @@ function addTests({curve, keyMaterial, signedFixture}) {
   });
 
   it(`should create ${curve} proof`, async () => {
-    const unsigned = {...signedFixture};
+    const unsigned = {...signFixture};
     delete unsigned.proof;
 
     const signer = keyPair.signer();
-    const date = new Date(signedFixture.proof.created);
+    const date = new Date(signFixture.proof.created);
 
     let error;
     let signed;
     try {
+      const cryptosuite = createSignCryptosuite();
       signed = await jsigs.sign(unsigned, {
         suite: new DataIntegrityProof({cryptosuite, signer, date}),
         purpose: new AssertionProofPurpose(),
@@ -47,33 +48,32 @@ function addTests({curve, keyMaterial, signedFixture}) {
     } catch(e) {
       error = e;
     }
-
     expect(error).to.not.exist;
     // ECDSA implementation is pseudorandom, so proof value will not match
-    const modified = {...signedFixture};
+    const modified = {...signFixture};
     modified.proof = {
-      ...signedFixture.proof,
+      ...signFixture.proof,
       proofValue: signed.proof.proofValue
     };
     expect(signed).to.deep.equal(modified);
 
+    const cryptosuite = createVerifyCryptosuite();
     // ensure generated signed document verifies
     const result = await jsigs.verify(signed, {
       suite: new DataIntegrityProof({cryptosuite}),
       purpose: new AssertionProofPurpose(),
       documentLoader
     });
-
     expect(result.verified).to.be.true;
   });
 
   it(`should verify ${curve} signed fixture`, async () => {
-    const result = await jsigs.verify(signedFixture, {
+    const cryptosuite = createVerifyCryptosuite();
+    const result = await jsigs.verify(verifyFixture, {
       suite: new DataIntegrityProof({cryptosuite}),
       purpose: new AssertionProofPurpose(),
       documentLoader
     });
-
     expect(result.verified).to.be.true;
   });
 }
