@@ -72,13 +72,44 @@ export const curveFixtures = [{
       "proofValue": "zq6PrUMCtqY5obCSsrQxuFJdGffCDxvFuopdZiBPUBRTFEs1VVsBZi8YiEwVWgHYrXxoV93gBHqGDBtQLPFxpZxz"
     }
   }
-}, /*{
+}, {
   curve: 'P-384',
   keyMaterial: {
     "publicKeyMultibase": "z82LkuBieyGShVBhvtE2zoiD6Kma4tJGFtkAhxR5pfkp5QPw4LutoYWhvQCnGjdVn14kujQ",
     "secretKeyMultibase": "z2fanyY7zgwNpZGxX5fXXibvScNaUWNprHU9dKx7qpVj7mws9J8LLt4mDB5TyH2GLHWkUc"
   },
-  signedFixture: {
+  signFixture: {
+    "@context": [
+      "https://www.w3.org/ns/credentials/v2",
+      "https://www.w3.org/ns/credentials/examples/v2"
+    ],
+    "id": "urn:uuid:58172aac-d8ba-11ed-83dd-0b3aef56cc33",
+    "type": [
+      "VerifiableCredential",
+      "AlumniCredential"
+    ],
+    "name": "Alumni Credential",
+    "description": "A minimum viable example of an Alumni Credential.",
+    "issuer": "https://vc.example/issuers/5678",
+    "validFrom": "2023-01-01T00:00:00Z",
+    "credentialSubject": {
+      "id": "did:example:abcdefgh",
+      "alumniOf": "The School of Examples"
+    },
+    "proof": {
+      "type": "DataIntegrityProof",
+      "created": "2023-02-24T23:36:38Z",
+      "verificationMethod": "did:key:z82LkuBieyGShVBhvtE2zoiD6Kma4tJGFtkAhxR5pfkp5QPw4LutoYWhvQCnGjdVn14kujQ#z82LkuBieyGShVBhvtE2zoiD6Kma4tJGFtkAhxR5pfkp5QPw4LutoYWhvQCnGjdVn14kujQ",
+      "cryptosuite": "ecdsa-jcs-2019",
+      "proofPurpose": "assertionMethod",
+      "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://www.w3.org/ns/credentials/examples/v2"
+      ],
+      "proofValue": "zasuhHXVzmepTMgSuyWvCCY3gYbLpANXDYWSuemx7WjopwRr6DDN532dKSMoxqNeQm7BWZxqyurFLSPBDmzaHe57k7JgGRaNtJhjfYjgww19nPWdP7dYqqf1X1LvNEcZJP75"
+    }
+  },
+  verifyFixture: {
     "@context": [
       "https://www.w3.org/ns/credentials/v2",
       "https://www.w3.org/ns/credentials/examples/v2"
@@ -105,7 +136,7 @@ export const curveFixtures = [{
       "proofValue": "zR3krc7pt9Dpn1PY2u8HWPePggtzAG2SuH2ZGNrzw8Ku3QrFLWgDTjS5mCWy65ShixJEtpMwfviAFfh5xTgd5FGN1sSbpPJ5djqSZQLqQkY8KLBPNswuqKtq3bS8f9vEHm8w"
     }
   }
-}*/];
+}];
 /* eslint-enable quotes */
 /* eslint-enable quote-props */
 /* eslint-enable max-len */
