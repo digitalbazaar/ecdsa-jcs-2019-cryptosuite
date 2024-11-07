@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2023-2024 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2024 Digital Bazaar, Inc. All rights reserved.
  */
 /* Note: This file contains data generated from the vc-di-ecdsa specification
 test vectors. */
