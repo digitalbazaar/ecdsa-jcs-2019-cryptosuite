@@ -22,12 +22,22 @@ const documentLoader = loader.build();
 describe('Ecdsa2019Cryptosuite', () => {
   describe('exports', () => {
     it('it should have proper exports', async () => {
-      const ecdsa2019Cryptosuite = createSignCryptosuite();
+      // sign cryptosuite
+      let ecdsa2019Cryptosuite = createSignCryptosuite();
       should.exist(ecdsa2019Cryptosuite);
       ecdsa2019Cryptosuite.name.should.equal('ecdsa-jcs-2019');
       ecdsa2019Cryptosuite.requiredAlgorithm.should.eql(['P-256', 'P-384']);
       ecdsa2019Cryptosuite.canonize.should.be.a('function');
       ecdsa2019Cryptosuite.createVerifier.should.be.a('function');
+      ecdsa2019Cryptosuite.createVerifyData.should.be.a('function');
+      // verify cryptosuite
+      ecdsa2019Cryptosuite = createVerifyCryptosuite();
+      ecdsa2019Cryptosuite.name.should.equal('ecdsa-jcs-2019');
+      ecdsa2019Cryptosuite.requiredAlgorithm.should.eql(['P-256', 'P-384']);
+      ecdsa2019Cryptosuite.canonize.should.be.a('function');
+      ecdsa2019Cryptosuite.createVerifier.should.be.a('function');
+      ecdsa2019Cryptosuite.createVerifyData.should.be.a('function');
+
     });
   });
 
