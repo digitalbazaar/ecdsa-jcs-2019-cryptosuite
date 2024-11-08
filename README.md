@@ -1,10 +1,10 @@
-# ECDSA RDFC 2019 Data Integrity Cryptosuite _(@digitalbazaar/ecdsa-rdfc-2019-cryptosuite)_
+# ECDSA JCS 2019 Data Integrity Cryptosuite _(@digitalbazaar/ecdsa-jcs-2019-cryptosuite)_
 
-[![Build status](https://img.shields.io/github/actions/workflow/status/digitalbazaar/ecdsa-rdfc-2019-cryptosuite/main.yml)](https://github.com/digitalbazaar/ecdsa-rdfc-2019-cryptosuite/actions?query=workflow%3A%22Node.js+CI%22)
-[![Coverage status](https://img.shields.io/codecov/c/github/digitalbazaar/ecdsa-rdfc-2019-cryptosuite)](https://codecov.io/gh/digitalbazaar/ecdsa-rdfc-2019-cryptosuite)
-[![NPM Version](https://img.shields.io/npm/v/@digitalbazaar/ecdsa-rdfc-2019-cryptosuite.svg)](https://npm.im/@digitalbazaar/ecdsa-rdfc-2019-cryptosuite)
+[![Build status](https://img.shields.io/github/actions/workflow/status/digitalbazaar/ecdsa-jcs-2019-cryptosuite/main.yml)](https://github.com/digitalbazaar/ecdsa-jcs-2019-cryptosuite/actions?query=workflow%3A%22Node.js+CI%22)
+[![Coverage status](https://img.shields.io/codecov/c/github/digitalbazaar/ecdsa-jcs-2019-cryptosuite)](https://codecov.io/gh/digitalbazaar/ecdsa-jcs-2019-cryptosuite)
+[![NPM Version](https://img.shields.io/npm/v/@digitalbazaar/ecdsa-jcs-2019-cryptosuite.svg)](https://npm.im/@digitalbazaar/ecdsa-jcs-2019-cryptosuite)
 
-> ECDSA RDFC 2019 Data Integrity Cryptosuite for use with jsonld-signatures.
+> ECDSA JCS 2019 Data Integrity Cryptosuite.
 
 ## Table of Contents
 
@@ -35,14 +35,14 @@ TBD
 To install from NPM:
 
 ```
-npm install @digitalbazaar/ecdsa-rdfc-2019-cryptosuite
+npm install @digitalbazaar/ecdsa-jcs-2019-cryptosuite
 ```
 
 To install locally (for development):
 
 ```
-git clone https://github.com/digitalbazaar/ecdsa-rdfc-2019-cryptosuite.git
-cd ecdsa-rdfc-2019-cryptosuite
+git clone https://github.com/digitalbazaar/ecdsa-jcs-2019-cryptosuite.git
+cd ecdsa-jcs-2019-cryptosuite
 npm install
 ```
 
@@ -54,8 +54,7 @@ a verifiable credential using this library:
 ```javascript
 import * as EcdsaMultikey from '@digitalbazaar/ecdsa-multikey';
 import {DataIntegrityProof} from '@digitalbazaar/data-integrity';
-import {cryptosuite as ecdsaRdfc2019Cryptosuite} from
-  '@digitalbazaar/ecdsa-rdfc-2019-cryptosuite';
+import {createSignCryptosuite} from '@digitalbazaar/ecdsa-jcs-2019-cryptosuite';
 import jsigs from 'jsonld-signatures';
 const {purposes: {AssertionProofPurpose}} = jsigs;
 
@@ -106,8 +105,9 @@ const controllerDoc = {
 addDocumentToLoader({url: controllerDoc.id, document: controllerDoc});
 
 // create suite
+const ecdsaJcs2019Cryptosuite = createSignCryptosuite();
 const suite = new DataIntegrityProof({
-  signer: keyPair.signer(), cryptosuite: ecdsaRdfc2019Cryptosuite
+  signer: keyPair.signer(), cryptosuite: ecdsaJcs2019Cryptosuite
 });
 
 // create signed credential
@@ -142,9 +142,17 @@ const signedCredential = await jsigs.sign(unsignedCredential, {
     "type": "DataIntegrityProof",
     "created": "2023-03-01T21:29:24Z",
     "verificationMethod": "https://example.edu/issuers/565049#zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9",
-    "cryptosuite": "ecdsa-rdfc-2019",
+    "cryptosuite": "ecdsa-jcs-2019",
     "proofPurpose": "assertionMethod",
-    "proofValue": "z5grbn9Tp8xC7p6LpmUdxxRdAx37azC2GQDdHBqq7ivFsaFUJtC81b8puwe2NmaEUYpxXQooXNnXL3M2NqySrzC5Z"
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      {
+        "AlumniCredential": "https://schema.org#AlumniCredential",
+        "alumniOf": "https://schema.org#alumniOf"
+      },
+      "https://w3id.org/security/data-integrity/v2"
+    ],
+    "proofValue": "z3ZhAmn1zfd2fjp6z5qF16xsC3Z9osMVFY64tVx2H7oRhsZLwKwEUTRaQrhsHG8rD8uMtNowAjLJhmPgX1UcScYU6"
   }
 }
 ```
