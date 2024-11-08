@@ -1,6 +1,6 @@
 {
   "name": "@digitalbazaar/ecdsa-jcs-2019-cryptosuite",
-  "version": "0.0.1-0",
+  "version": "1.0.0",
   "description": "An ECDSA-JCS-2019 Data Integrity cryptosuite.",
   "homepage": "https://github.com/digitalbazaar/ecdsa-jcs-2019-cryptosuite",
   "repository": {
